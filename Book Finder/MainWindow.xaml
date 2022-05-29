@@ -121,15 +121,16 @@
                         Focusable="False"/>
             </StackPanel>
         </Grid>
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1"
+                    Grid.Column="0">
             <TextBlock Foreground="Black"
                        Opacity="0.8"
-                       VerticalAlignment="Top"
-                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
                        FontFamily="Font/#Comfortaa"
                        FontSize="36"
                        FontWeight="Bold"
-                       TextWrapping="Wrap" Margin="0,50,0,0">
+                       TextWrapping="Wrap" Margin="5,50,0,0">
                 <Run Text="Find the" Foreground="Black"/>
                 <Run Text="books" Foreground="DodgerBlue"/>
                 <Run Text="you are looking for anywhere" Foreground="Black"/>
@@ -139,11 +140,11 @@
                        Text="Search for books anywhere, you don't need to know the name of the book, if you know the name of the author or the publisher, just type and search."
                        Opacity="0.8"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"
+                       HorizontalAlignment="Left"
                        FontFamily="Font/#Comfortaa"
                        FontSize="16"
                        FontWeight="Light"
-                       TextWrapping="Wrap" Margin="0,25,0,0"/>
+                       TextWrapping="Wrap" Margin="5,25,0,0"/>
             <Button x:Name="Btn_GoNow"
                     Foreground="White"
                     Content="Search now ➜"     

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace Book_Finder
 {
@@ -13,35 +14,17 @@ namespace Book_Finder
             InitializeComponent();
         }
 
-        private void Btn_About_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
+        private void Btn_About_Click(object sender, RoutedEventArgs e) => Process.Start("https://github.com/Djostit/Book-Finder/blob/master/README.md");
 
-        private void Btn_Contact_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("https://github.com/Djostit");
-        }
+        private void Btn_Contact_Click(object sender, RoutedEventArgs e) => Process.Start("https://github.com/Djostit");
 
-        private void CloseCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
+        private void CloseCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
 
-        private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.Close();
-        }
+        private void CloseCommand_Executed(object sender, ExecutedRoutedEventArgs e) => Close();
 
-        private void MinimizeCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
+        private void MinimizeCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
 
-        private void MinimizeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
+        private void MinimizeCommand_Executed(object sender, ExecutedRoutedEventArgs e) =>  WindowState = WindowState.Minimized;
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -51,9 +34,6 @@ namespace Book_Finder
             }
         }
 
-        private void Btn_GoNow_Click(object sender, RoutedEventArgs e)
-        {
-            _ = frame.NavigationService.Navigate(new SearchPage());
-        }
+        private void Btn_GoNow_Click(object sender, RoutedEventArgs e) => frame.NavigationService.Navigate(new SearchPage());
     }
 }

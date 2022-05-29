@@ -17,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -56,10 +57,32 @@
                     IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                     Cursor="Hand"
                     Focusable="False"
-                    Margin="5,5,5,5"/>
+                    Margin="5,5,5,5"
+                    Click="Btn_Search_Click"/>
         </StackPanel>
-        <ListView Grid.Row="2">
-            
+        <TextBlock x:Name="Count"
+                   Grid.Row="2"
+                   Foreground="Black"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   FontFamily="Font/#Comfortaa"
+                   FontSize="16"
+                   FontWeight="Light"
+                   Margin="5,0,0,0"/>
+        <ListView Grid.Row="3"
+                  x:Name="listView">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock
+                        Text="{Binding Path=Title}"
+                                       Foreground="Gray"
+                                       FontFamily="Open Sans"
+                                       FontWeight="Light"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left" 
+                                       FontSize="15"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
         </ListView>
     </Grid>
 </Page>
