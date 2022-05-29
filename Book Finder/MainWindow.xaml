@@ -1,0 +1,171 @@
+﻿<Window x:Class="Book_Finder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Book_Finder"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        Height="400" 
+        Width="800"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        MinHeight="400"
+        MinWidth="800">
+    <Window.CommandBindings>
+        <CommandBinding x:Name="CloseCommand"
+                        Command="{x:Static SystemCommands.CloseWindowCommand}"
+                        CanExecute="CloseCommand_CanExecute"
+                        Executed="CloseCommand_Executed"/>
+        <CommandBinding x:Name="MinimizeCommand"
+                        Command="{x:Static SystemCommands.MinimizeWindowCommand}"
+                        CanExecute="MinimizeCommand_CanExecute"
+                        Executed="MinimizeCommand_Executed"/>
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Background="Transparent"
+              Grid.ColumnSpan="2"
+              MouseDown="Grid_MouseDown">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Book Finder"
+                       Foreground="DodgerBlue"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontFamily="Font/#Comfortaa"
+                       FontWeight="Bold"/>
+            <Button x:Name="Btn_About"
+                    Grid.Column="2"
+                    Foreground="Gray"
+                    Content="About"       
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Font/#Comfortaa"
+                    FontWeight="Light"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+                    Cursor="Hand"
+                    Style="{StaticResource ButtonStyleText}"
+                    Click="Btn_About_Click"
+                    Focusable="False"/>
+            <Button x:Name="Btn_Contact"
+                    Grid.Column="3"
+                    Foreground="Gray"
+                    Content="Contact"     
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Font/#Comfortaa"
+                    FontWeight="Light"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+                    Cursor="Hand"
+                    Style="{StaticResource ButtonStyleText}"
+                    Click="Btn_Contact_Click"
+                    Focusable="False"/>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="12"
+                        Grid.ColumnSpan="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center">
+                <Button x:Name="Btn_Minimize"
+                        Command="{x:Static SystemCommands.MinimizeWindowCommand}"
+                        Padding="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource MaterialDesignFlatDarkButton}"
+                        Foreground="Gray"
+                        Content="{materialDesign:PackIcon Kind=Minus, Size=25}"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Cursor="Hand"
+                        Focusable="False"/>
+                <Button x:Name="Btn_Close"
+                        Command="{x:Static SystemCommands.CloseWindowCommand}"
+                        Padding="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesignFlatDarkButton}"
+                        Foreground="Gray"
+                        Content="{materialDesign:PackIcon Kind=WindowClose, Size=25}"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Cursor="Hand"
+                        Focusable="False"/>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1">
+            <TextBlock Foreground="Black"
+                       Opacity="0.8"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Center"
+                       FontFamily="Font/#Comfortaa"
+                       FontSize="36"
+                       FontWeight="Bold"
+                       TextWrapping="Wrap" Margin="0,50,0,0">
+                <Run Text="Find the" Foreground="Black"/>
+                <Run Text="books" Foreground="DodgerBlue"/>
+                <Run Text="you are looking for anywhere" Foreground="Black"/>
+            </TextBlock>
+            <TextBlock Grid.Row="1"
+                       Foreground="Black"
+                       Text="Search for books anywhere, you don't need to know the name of the book, if you know the name of the author or the publisher, just type and search."
+                       Opacity="0.8"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontFamily="Font/#Comfortaa"
+                       FontSize="16"
+                       FontWeight="Light"
+                       TextWrapping="Wrap" Margin="0,25,0,0"/>
+            <Button x:Name="Btn_GoNow"
+                    Foreground="White"
+                    Content="Search now ➜"     
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontFamily="Font/#Comfortaa"
+                    FontWeight="Bold"
+                    Background="DodgerBlue"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+                    Cursor="Hand"
+                    Focusable="False" 
+                    Margin="10,25,0,0"
+                    Click="Btn_GoNow_Click"/>
+        </StackPanel>
+        <Image Source="pack://application:,,,/Book Finder;component/Image/MiniLogo.png"
+               Grid.Row="1"
+               Grid.Column="2"
+               Stretch="Uniform"/>
+        <Frame x:Name="frame"
+               Grid.Row="1"
+               Grid.ColumnSpan="2"
+               NavigationUIVisibility="Hidden"
+               Focusable="False"/>
+    </Grid>
+</Window>

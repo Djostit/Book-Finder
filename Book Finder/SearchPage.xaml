@@ -1,0 +1,65 @@
+﻿<Page x:Class="Book_Finder.SearchPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Book_Finder"
+      mc:Ignorable="d"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontSize="13"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      Background="{DynamicResource MaterialDesignPaper}"
+      d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                       Foreground="Black"
+                       Opacity="0.8"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left"
+                       FontFamily="Font/#Comfortaa"
+                       FontSize="16"
+                       FontWeight="Light"
+                       TextWrapping="Wrap" Margin="5,25,0,23">
+            Search for books anywhere, you don't need to know the name of the book, if <LineBreak/> you know the name of the author or the publisher, just type and search.
+        </TextBlock>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+        <TextBox x:Name="Search"
+                 Grid.Row="1"
+                 MinWidth="300"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 materialDesign:HintAssist.Hint="Search"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Center"
+                 FontFamily="Font/#Comfortaa"
+                 Cursor="Arrow"
+                 materialDesign:TextFieldAssist.HasClearButton="True"
+                 Margin="5"/>
+            <Button x:Name="Btn_Search"
+                    Padding="1"
+                    MinHeight="50"
+                    MinWidth="50"
+                    Style="{StaticResource MaterialDesignFlatDarkBgButton}"
+                    Content="{materialDesign:PackIcon Kind=Search,Size=50}"
+                    Background="DodgerBlue"
+                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
+                    Cursor="Hand"
+                    Focusable="False"
+                    Margin="5,5,5,5"/>
+        </StackPanel>
+        <ListView Grid.Row="2">
+            
+        </ListView>
+    </Grid>
+</Page>
