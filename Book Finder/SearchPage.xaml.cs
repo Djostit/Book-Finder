@@ -10,24 +10,42 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Windows.Documents;
+using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace Book_Finder
 {
     /// <summary>
     /// Логика взаимодействия для SearchPage.xaml
     /// </summary>
-    public class Book
-    {
-        public string authors { get; set; }
-        public string title { get; set; }
-    }
-
     public class BookListResponse
     {
         public string Kind { get; set; }
-        public List<Book> Items { get; set; }
         public int TotalItems { get; set; }
         public List<BookListResponse> Books { get; set; }
+    }
+    public class BookObject
+    {
+        public BookObject()
+        {
+            authors = new List<string>(); // init authors in constructor
+        }
+        public string id { get; set; }
+        public string title { get; set; }
+        public List<string> authors { get; set; }
+        public string publisher { get; set; }
+        public string publishedDate { get; set; }
+        public string description { get; set; }
+        public int pageCount { get; set; }
+        public string blurb { get; set; }
+
+        // Availability
+        public bool pdfAvailable { get; set; }
+        public string pdfLink { get; set; }
+        public bool epubAvailable { get; set; }
+        public string epubLink { get; set; }
+        public string forSale { get; set; }
+        public string saleLink { get; set; }
     }
 
     public partial class SearchPage : Page
@@ -38,48 +56,18 @@ namespace Book_Finder
         }
         private static async Task ProcessRepositories(ListView listView, string text, TextBlock Count)
         {
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create($"https://www.googleapis.com/books/v1/volumes?q={text}:keyes&key=AIzaSyAM3ztiQNUU2L0JYQ1VAZc1JffOhonTWoU");
-            HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
-            string answer = string.Empty;
-            using (Stream stream = response.GetResponseStream())
-            {
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    //Console.WriteLine(reader.ReadToEnd());
-                    answer = reader.ReadToEnd();
-                }
-            }
-            response.Close();
-
-            BookListResponse bookListResponse = JsonConvert.DeserializeObject<BookListResponse>(answer);
-            Count.Text = $"Количество: {bookListResponse.TotalItems}";
-            foreach (var item in bookListResponse.Items)
-            {
-                Console.WriteLine(item.title);
-            }
-
-            //client.DefaultRequestHeaders.Accept.Clear();
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //var streamTask = client.GetStreamAsync($"https://www.googleapis.com/books/v1/volumes?q={text}:keyes&key=AIzaSyAM3ztiQNUU2L0JYQ1VAZc1JffOhonTWoU");
-            //string json = new StreamReader(await streamTask).ReadToEnd();
-            //var repositories = JsonConvert.DeserializeObject<List<BookListResponse>>(json);
-            //foreach (var item in repositories)
-            //    Debug.WriteLine(item);
-
+            HttpClient bookClient = new HttpClient();
+            bookClient.BaseAddress = new Uri($"https://www.googleapis.com/books/v1/volumes?q={text}");
+            HttpResponseMessage response = bookClient.GetAsync($"https://www.googleapis.com/books/v1/volumes?q={text}").Result;
+            Console.WriteLine(response.StatusCode);
+            JObject bookJson = JObject.Parse(response.Content.ReadAsStringAsync().Result);
+            Count.Text = $"Count book: {bookJson["totalItems"]}";
+            await Task.CompletedTask;
         }
-        private void Request(string text)
-        {
-            string url = $"https://www.googleapis.com/books/v1/volumes?q={text}:keyes&key=AIzaSyAM3ztiQNUU2L0JYQ1VAZc1JffOhonTWoU";
-            using (var webClient = new WebClient())
-            {
-                // Выполняем запрос по адресу и получаем ответ в виде строки
-                var response = webClient.DownloadString(url);
-                Debug.WriteLine(response);
-            }
-        }
+
         private async void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
-           await ProcessRepositories(listView, Search.Text, Count);
+            await ProcessRepositories(listView, Search.Text, Count);
         }
     }
 }
