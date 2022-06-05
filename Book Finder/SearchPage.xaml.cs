@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Windows.Documents;
 using Newtonsoft.Json.Linq;
 using System.Text;
+using System.Windows.Media.Imaging;
+using System.Linq;
 
 namespace Book_Finder
 {
@@ -53,21 +55,29 @@ namespace Book_Finder
         public SearchPage()
         {
             InitializeComponent();
+            bookClient.BaseAddress = new Uri("https://www.googleapis.com/books/v1/volumes?q=");
         }
-        private static async Task ProcessRepositories(ListView listView, string text, TextBlock Count)
-        {
-            HttpClient bookClient = new HttpClient();
-            bookClient.BaseAddress = new Uri($"https://www.googleapis.com/books/v1/volumes?q={text}");
+        HttpClient bookClient = new HttpClient();
+        private void ProcessRepositories(string text)
+        {   
             HttpResponseMessage response = bookClient.GetAsync($"https://www.googleapis.com/books/v1/volumes?q={text}").Result;
             Console.WriteLine(response.StatusCode);
             JObject bookJson = JObject.Parse(response.Content.ReadAsStringAsync().Result);
             Count.Text = $"Count book: {bookJson["totalItems"]}";
-            await Task.CompletedTask;
-        }
 
-        private async void Btn_Search_Click(object sender, RoutedEventArgs e)
+            JArray books = (JArray)bookJson["items"];
+            foreach (var book in books)
+            {
+                JObject volumeInfoObject = (JObject)book["volumeInfo"];
+                Console.WriteLine(volumeInfoObject["title"]);
+                Console.WriteLine(volumeInfoObject["publishedDate"]);
+                Console.WriteLine(volumeInfoObject["description"]);
+            }
+
+        }
+        private void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
-            await ProcessRepositories(listView, Search.Text, Count);
+           ProcessRepositories(Search.Text);
         }
     }
 }

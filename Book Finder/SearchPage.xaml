@@ -60,6 +60,11 @@
                     Margin="5,5,5,5"
                     Click="Btn_Search_Click"/>
         </StackPanel>
+        <ProgressBar x:Name="CircularProgress"
+                     Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Grid.Row="3"
+                     Value="20"
+                     IsIndeterminate="True" />
         <TextBlock x:Name="Count"
                    Grid.Row="2"
                    Foreground="Black"
