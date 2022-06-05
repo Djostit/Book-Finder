@@ -25,6 +25,7 @@ namespace Book_Finder
         public string Kind { get; set; }
         public int TotalItems { get; set; }
         public List<BookListResponse> Books { get; set; }
+        public List<string> authors { get; set; }
     }
     public class BookObject
     {
@@ -59,7 +60,7 @@ namespace Book_Finder
         }
         HttpClient bookClient = new HttpClient();
         private void ProcessRepositories(string text)
-        {   
+        {
             HttpResponseMessage response = bookClient.GetAsync($"https://www.googleapis.com/books/v1/volumes?q={text}").Result;
             Console.WriteLine(response.StatusCode);
             JObject bookJson = JObject.Parse(response.Content.ReadAsStringAsync().Result);
@@ -69,12 +70,44 @@ namespace Book_Finder
             foreach (var book in books)
             {
                 JObject volumeInfoObject = (JObject)book["volumeInfo"];
-                Console.WriteLine(volumeInfoObject["title"]);
-                Console.WriteLine(volumeInfoObject["publishedDate"]);
-                Console.WriteLine(volumeInfoObject["description"]);
+                //Console.WriteLine(volumeInfoObject["title"]);
+                //Console.WriteLine(volumeInfoObject["publishedDate"]);
+                //Console.WriteLine(volumeInfoObject["description"]);
+                //Console.WriteLine(volumeInfoObject["publisher"]);
+                //Console.WriteLine(ParseString(volumeInfoObject, "authors"));
+                MessageBox.Show($"{volumeInfoObject["title"]}" +
+                    $"\nАвторы: {ParseString(volumeInfoObject, "authors")}" +
+                    $"\nДата: {volumeInfoObject["publishedDate"]}" +
+                    $"\nПубликатор: {volumeInfoObject["publisher"]}" +
+                    $"\nОписание: {volumeInfoObject["description"]}");
             }
 
         }
+        private string ParseString(JObject text, string index)
+        {
+            if (text[index] == null)
+            {
+                return "";
+            }
+            else
+            {
+                string temp = string.Empty;
+                int temp_count = 0;
+                foreach (var item in text[index])
+                {
+                    if (temp_count == 0)
+                    {
+                        temp += item;
+                        temp_count++;
+                    }
+                    else
+                    {
+                        temp += $", {item}";
+                    }
+                }
+                return temp;
+            }
+        }   
         private void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
            ProcessRepositories(Search.Text);
