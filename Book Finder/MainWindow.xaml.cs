@@ -18,7 +18,7 @@ namespace Book_Finder
             {
                 Btn_RU.IsChecked = true;
             }
-            else if (Properties.Settings.Default.DefaultLanguage.ToString().Contains("en-US"))
+            else
             {
                 Btn_EN.IsChecked = true;
             }

@@ -59,7 +59,7 @@
                                FontFamily="Font/#Comfortaa"
                                FontWeight="Bold"
                                TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding Path=Authors}"
+                        <TextBlock Text="{Binding Path=Authors}"
                                Foreground="Black"
                                FontFamily="Font/#Comfortaa"
                                FontWeight="Light"
@@ -166,15 +166,26 @@
                                                HorizontalAlignment="Stretch">
                                         <materialDesign:PackIcon Kind="Account"
                                                                  VerticalAlignment="Center"/>
-                                    <TextBox x:Name="NameTextBox"
+                                        <TextBox x:Name="NameTextBox"
                                              materialDesign:HintAssist.Hint="Name"
+                                             FontFamily="Font/#Comfortaa"
+                                             FontWeight="Regular"
                                              MaxLength="45"
                                              materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
                                              MinWidth="200"
                                              MaxWidth="350"
                                              Padding="1"
                                              HorizontalAlignment="Stretch">
-                                    </TextBox>
+                                            <TextBox.Text>
+                                                <Binding Path="Validation.Name"
+                                                         Mode="TwoWay"
+                                                         UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <DataErrorValidationRule/>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox.Text>
+                                        </TextBox>
                                     </WrapPanel>
                                     <WrapPanel Margin="0,5,0,0" Grid.Row="2">
                                         <TextBlock Text="Общая оценка: "

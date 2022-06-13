@@ -60,9 +60,9 @@ namespace Book_Finder
                     return (volumeInfoObject, imageLinksObject, buyLinkObject, accessInfoObject);
                 });
 
-                await mainthread.Invoke(async () => list.Add(new Book { Title = r.volumeInfoObject["title"].ToString(), Authors = await ParseString(r.volumeInfoObject, "authors"), PublishedDate = await ParseText(r.volumeInfoObject, "publishedDate"),
-                    Publisher = await ParseText(r.volumeInfoObject, "publisher"), Image = await ParseImage(r.imageLinksObject, "thumbnail", 1), PreviewLink = r.volumeInfoObject["previewLink"].ToString(),
-                    Description = await ParseText(r.volumeInfoObject, "description"), PageCount = await ParseText(r.volumeInfoObject, "pageCount"), BuyLink = await ParseImage(r.buyLinkObject, "buyLink", 2), WebReaderLink = await ParseImage(r.accessInfoObject, "webReaderLink", 2) }));
+                await mainthread.Invoke(async () => list.Add(new Book { Title = r.volumeInfoObject["title"].ToString(), Authors = await ParseString(r.volumeInfoObject, "authors"), PublishedDate = await ParseImage(r.volumeInfoObject, "publishedDate", 2),
+                    Publisher = await ParseImage(r.volumeInfoObject, "publisher", 2), Image = await ParseImage(r.imageLinksObject, "thumbnail", 1), PreviewLink = r.volumeInfoObject["previewLink"].ToString(),
+                    Description = await ParseImage(r.volumeInfoObject, "description", 2), PageCount = await ParseImage(r.volumeInfoObject, "pageCount", 2), BuyLink = await ParseImage(r.buyLinkObject, "buyLink", 2), WebReaderLink = await ParseImage(r.accessInfoObject, "webReaderLink", 2) }));
             }         
             listView.ItemsSource = list;
 
@@ -81,21 +81,15 @@ namespace Book_Finder
                 }
                 else if (text[index] == null)
                 {
-                    return "Not found";
-                }
-                else
-                {
-                    return text[index].ToString();
-                }
-            });
-        }
-        private async Task<string> ParseText(JObject text, string index)
-        {
-            return await Task.Run(() =>
-            {
-                if (text[index] == null)
-                {
-                    return "Not Found";
+                    //if (Properties.Settings.Default.DefaultLanguage.ToString().Contains("ru-RU"))
+                    //{
+                    //    return "Отсутствует";
+                    //}
+                    //else
+                    //{
+                    //    return "Not found";
+                    //}
+                    return Application.Current.Resources["Not_found"].ToString();
                 }
                 else
                 {
