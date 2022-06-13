@@ -22,16 +22,16 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0"
-                       Foreground="Black"
-                       Opacity="0.8"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Left"
-                       FontFamily="Font/#Comfortaa"
-                       FontSize="16"
-                       FontWeight="Light"
-                       TextWrapping="Wrap" Margin="5,25,0,23">
-            Search for books anywhere, you don't need to know the name of the book, if <LineBreak/> you know the name of the author or the publisher, just type and search.
-        </TextBlock>
+                   Foreground="Black"
+                   Opacity="0.8"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                   FontFamily="Font/#Comfortaa"
+                   FontSize="18"
+                   FontWeight="Light"
+                   Text="{DynamicResource m_Search_dep}"
+                   TextWrapping="Wrap" 
+                   Margin="0,25,0,15"/>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="1"
                     VerticalAlignment="Center"
@@ -40,13 +40,14 @@
                  Grid.Row="1"
                  MinWidth="300"
                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                 materialDesign:HintAssist.Hint="Search"
+                 materialDesign:HintAssist.Hint="{DynamicResource m_Search_st}"
                  VerticalAlignment="Center"
                  HorizontalAlignment="Center"
                  FontFamily="Font/#Comfortaa"
                  Cursor="Arrow"
                  materialDesign:TextFieldAssist.HasClearButton="True"
-                 Margin="5"/>
+                 Margin="5"
+                 PreviewKeyDown="Search_PreviewKeyDown"/>
             <Button x:Name="Btn_Search"
                     Padding="1"
                     MinHeight="50"
@@ -54,38 +55,140 @@
                     Style="{StaticResource MaterialDesignFlatDarkBgButton}"
                     Content="{materialDesign:PackIcon Kind=Search,Size=50}"
                     Background="DodgerBlue"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                     Cursor="Hand"
                     Focusable="False"
                     Margin="5,5,5,5"
                     Click="Btn_Search_Click"/>
         </StackPanel>
-        <ProgressBar x:Name="CircularProgress"
+        <!--<ProgressBar x:Name="CircularProgress"
                      Style="{StaticResource MaterialDesignCircularProgressBar}"
                      Grid.Row="3"
                      Value="20"
-                     IsIndeterminate="True" />
-        <TextBlock x:Name="Count"
-                   Grid.Row="2"
-                   Foreground="Black"
+                     IsIndeterminate="True" />-->
+        <WrapPanel Grid.Row="2"
                    VerticalAlignment="Center"
                    HorizontalAlignment="Left"
+                   x:Name="BookCount">
+        <TextBlock Text="{DynamicResource m_CountBook}"
+                   Foreground="Black"
                    FontFamily="Font/#Comfortaa"
                    FontSize="16"
-                   FontWeight="Light"
-                   Margin="5,0,0,0"/>
+                   FontWeight="Light"/>
+            <TextBlock x:Name="Count"
+                       Foreground="Black"
+                       FontFamily="Font/#Comfortaa"
+                       FontSize="16"
+                       FontWeight="Light"
+                       Margin="5,0,0,0"/>
+        </WrapPanel>
         <ListView Grid.Row="3"
-                  x:Name="listView">
+                  x:Name="listView"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  HorizontalAlignment="Center">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource MaterialDesignCardsListBoxItem}">
+                    <Setter Property="Background" Value="White"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock
-                        Text="{Binding Path=Title}"
-                                       Foreground="Gray"
-                                       FontFamily="Open Sans"
+                    <Grid MaxWidth="310"
+                          MinWidth="350"
+                          MinHeight="206">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.65*"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Image HorizontalAlignment="Left"
+                               Stretch="Fill"
+                               VerticalAlignment="Center"
+                               Source="{Binding Path=Image}"
+                               MinWidth="128"
+                               MaxWidth="128"
+                               MinHeight="196"
+                               MaxHeight="196"/>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Name="TextTitle"
+                                       Text="{Binding Path=Title}"
+                                       HorizontalAlignment="Left"
+                                       Foreground="Black"
+                                       FontFamily="Font/#Comfortaa"
+                                       FontWeight="Bold"
+                                       TextWrapping="Wrap"
+                                       Cursor="Hand"
+                                       Margin="0,10,0,0"
+                                       PreviewMouseLeftButtonDown="TextTitle_PreviewMouseLeftButtonDown"/>
+                            <WrapPanel Grid.Row="1"
+                                       Margin="0,10,0,0">
+                                <TextBlock Text="{DynamicResource m_Authors}"
+                                       HorizontalAlignment="Left"
+                                       Foreground="Black"
+                                       FontFamily="Font/#Comfortaa"
+                                       FontWeight="Bold"
+                                       TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Path=Authors}"
+                                       HorizontalAlignment="Left"
+                                       Foreground="Black"
+                                       FontFamily="Font/#Comfortaa"
                                        FontWeight="Light"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Left" 
-                                       FontSize="15"/>
+                                       TextWrapping="Wrap"
+                                       Margin="5,0,0,0"/>
+                            </WrapPanel>
+                            <WrapPanel Grid.Row="2"
+                                       Margin="0,10,0,0">
+                                <TextBlock Text="{DynamicResource m_Published_Date}"
+                                       HorizontalAlignment="Left"
+                                       Foreground="Black"
+                                       FontFamily="Font/#Comfortaa"
+                                       FontWeight="Bold"
+                                       TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Path=PublishedDate}"
+                                       HorizontalAlignment="Left"
+                                       Foreground="Black"
+                                       FontFamily="Font/#Comfortaa"
+                                       FontWeight="Light"
+                                       TextWrapping="Wrap"
+                                       Margin="5,0,0,0"/>
+                            </WrapPanel>
+                            <WrapPanel Grid.Row="3"
+                                       Margin="0,10,0,0">
+                                <TextBlock Text="{DynamicResource m_Publisher}"
+                                       HorizontalAlignment="Left"
+                                       Foreground="Black"
+                                       FontFamily="Font/#Comfortaa"
+                                       FontWeight="Bold"
+                                       TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Path=Publisher}"
+                                       HorizontalAlignment="Left"
+                                       Foreground="Black"
+                                       FontFamily="Font/#Comfortaa"
+                                       FontWeight="Light"
+                                       TextWrapping="Wrap"
+                                       Margin="5,0,0,0"/>
+                            </WrapPanel>
+                            <Button x:Name="Btn_More"
+                                    Grid.Row="4"
+                                    Content="{DynamicResource m_More}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Font/#Comfortaa"
+                                    FontWeight="Bold"
+                                    Margin="0,10,0,0"
+                                    Click="Btn_More_Click"/>
+                        </Grid>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

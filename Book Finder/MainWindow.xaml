@@ -17,7 +17,8 @@
         WindowStyle="None"
         ResizeMode="CanResize"
         MinHeight="400"
-        MinWidth="800">
+        MinWidth="800"
+        Title="Book Finder">
     <Window.CommandBindings>
         <CommandBinding x:Name="CloseCommand"
                         Command="{x:Static SystemCommands.CloseWindowCommand}"
@@ -27,6 +28,10 @@
                         Command="{x:Static SystemCommands.MinimizeWindowCommand}"
                         CanExecute="MinimizeCommand_CanExecute"
                         Executed="MinimizeCommand_Executed"/>
+        <CommandBinding x:Name="MaximizeCommand"
+                        Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                        CanExecute="MaximizeCommand_CanExecute"
+                        Executed="MaximizeCommand_Executed"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -35,19 +40,21 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="0.02*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid Background="Transparent"
               Grid.ColumnSpan="2"
+              Grid.Column="1"
               MouseDown="Grid_MouseDown">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -68,30 +75,51 @@
                        FontWeight="Bold"/>
             <Button x:Name="Btn_About"
                     Grid.Column="2"
-                    Foreground="Gray"
-                    Content="About"       
+                    Content="{DynamicResource m_About}"       
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontFamily="Font/#Comfortaa"
                     FontWeight="Light"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                     Cursor="Hand"
                     Style="{StaticResource ButtonStyleText}"
                     Click="Btn_About_Click"
-                    Focusable="False"/>
+                    Focusable="False"
+                    Margin="5,0,0,0"/>
             <Button x:Name="Btn_Contact"
                     Grid.Column="3"
-                    Foreground="Gray"
-                    Content="Contact"     
+                    Content="{DynamicResource m_Contact}"     
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontFamily="Font/#Comfortaa"
                     FontWeight="Light"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                     Cursor="Hand"
                     Style="{StaticResource ButtonStyleText}"
                     Click="Btn_Contact_Click"
-                    Focusable="False"/>
+                    Focusable="False"
+                    Margin="5,0,0,0"/>
+            <WrapPanel Grid.Column="4"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Orientation="Vertical"
+                       Margin="5,0,0,0">
+                <RadioButton x:Name="Btn_RU"
+                             Content="RU"
+                             FontFamily="Font/#Comfortaa"
+                             FontWeight="Light"
+                             Focusable="False"
+                             Style="{StaticResource RadioButtonText}"
+                             Cursor="Hand"
+                             Click="Btn_RU_Click"/>
+                <RadioButton x:Name="Btn_EN"
+                             Content="EN"
+                             FontFamily="Font/#Comfortaa"
+                             FontWeight="Light"
+                             Focusable="False"
+                             Margin="5,0,0,0"
+                             Style="{StaticResource RadioButtonText}"
+                             Cursor="Hand"
+                             Click="Btn_EN_Click"/>
+            </WrapPanel>
             <StackPanel Orientation="Horizontal"
                         Grid.Column="12"
                         Grid.ColumnSpan="2"
@@ -102,10 +130,17 @@
                         Padding="1"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
-                        Style="{StaticResource MaterialDesignFlatDarkButton}"
-                        Foreground="Gray"
+                        Style="{StaticResource ButtonStyleIcon}"
                         Content="{materialDesign:PackIcon Kind=Minus, Size=25}"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                        Cursor="Hand"
+                        Focusable="False"/>
+                <Button x:Name="Btn_Maximize"
+                        Command="{x:Static SystemCommands.MaximizeWindowCommand}"
+                        Padding="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource ButtonStyleIcon}"
+                        Content="{materialDesign:PackIcon Kind=RectangleOutline, Size=25}"
                         Cursor="Hand"
                         Focusable="False"/>
                 <Button x:Name="Btn_Close"
@@ -113,59 +148,67 @@
                         Padding="1"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Style="{StaticResource MaterialDesignFlatDarkButton}"
-                        Foreground="Gray"
+                        Style="{StaticResource ButtonStyleIcon}"
                         Content="{materialDesign:PackIcon Kind=WindowClose, Size=25}"
-                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                         Cursor="Hand"
                         Focusable="False"/>
             </StackPanel>
         </Grid>
+        <Viewbox Grid.Row="1"
+                 Stretch="Uniform"
+                 MinWidth="307"
+                 MaxWidth="600"
+                 Grid.Column="1"
+                 VerticalAlignment="Stretch"
+                 HorizontalAlignment="Stretch">
         <StackPanel Grid.Row="1"
-                    Grid.Column="0">
-            <TextBlock Foreground="Black"
+                    Grid.Column="1">
+                <TextBlock Foreground="Black"
+                       MinWidth="312"
+                           MaxWidth="320"
+                           Text="{DynamicResource m_Search_title}"
                        Opacity="0.8"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
                        FontFamily="Font/#Comfortaa"
                        FontSize="36"
                        FontWeight="Bold"
-                       TextWrapping="Wrap" Margin="5,50,0,0">
-                <Run Text="Find the" Foreground="Black"/>
-                <Run Text="books" Foreground="DodgerBlue"/>
-                <Run Text="you are looking for anywhere" Foreground="Black"/>
-            </TextBlock>
-            <TextBlock Grid.Row="1"
+                       TextWrapping="Wrap"/>
+                <TextBlock Grid.Row="1"
                        Foreground="Black"
-                       Text="Search for books anywhere, you don't need to know the name of the book, if you know the name of the author or the publisher, just type and search."
                        Opacity="0.8"
+                           MinWidth="307"
+                           MaxWidth="307"
                        VerticalAlignment="Center"
+                           Text="{DynamicResource m_Search_dep}"
                        HorizontalAlignment="Left"
                        FontFamily="Font/#Comfortaa"
                        FontSize="16"
                        FontWeight="Light"
-                       TextWrapping="Wrap" Margin="5,25,0,0"/>
+                       TextWrapping="Wrap" Margin="5,25,0,0">
+                </TextBlock>
             <Button x:Name="Btn_GoNow"
                     Foreground="White"
-                    Content="Search now ➜"     
+                    Content="{DynamicResource m_Search}"     
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     FontFamily="Font/#Comfortaa"
                     FontWeight="Bold"
                     Background="DodgerBlue"
-                    IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" 
                     Cursor="Hand"
                     Focusable="False" 
-                    Margin="10,25,0,0"
+                    Margin="10,20,0,5"
                     Click="Btn_GoNow_Click"/>
         </StackPanel>
+        </Viewbox>
         <Image Source="pack://application:,,,/Book Finder;component/Image/MiniLogo.png"
                Grid.Row="1"
                Grid.Column="2"
                Stretch="Uniform"/>
         <Frame x:Name="frame"
                Grid.Row="1"
-               Grid.ColumnSpan="2"
+               Grid.Column="1"
+               Grid.ColumnSpan="3"
                NavigationUIVisibility="Hidden"
                Focusable="False"/>
     </Grid>

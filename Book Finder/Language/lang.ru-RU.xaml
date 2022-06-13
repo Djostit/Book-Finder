@@ -1,0 +1,20 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:v="clr-namespace:System;assembly=mscorlib">
+    <v:String x:Key="m_About">О программе</v:String>
+    <v:String x:Key="m_Contact">Связаться со мной</v:String>
+    <v:String x:Key="m_Search">Поиск сейчас ➜</v:String>
+    <v:String x:Key="m_Search_dep">Ищите книги где угодно, вам не нужно знать название книги, если вы знаете имя автора или издателя, просто наберите и ищите.</v:String>
+    <v:String x:Key="m_Search_title">Найдите книги, которые вы ищете, где угодно</v:String>
+    <v:String x:Key="m_Search_st">Поиск</v:String>
+    <v:String x:Key="m_More">Подробнее ></v:String>
+    <v:String x:Key="m_Authors">Авторы:</v:String>
+    <v:String x:Key="m_Published_Date">Дата публикации:</v:String>
+    <v:String x:Key="m_Publisher">Издатель:</v:String>
+    <v:String x:Key="m_CountBook">Количество книг:</v:String>
+    <v:String x:Key="m_NumberPages">Количество страниц:</v:String>
+    <v:String x:Key="m_Book_Description">Описание книги</v:String>
+    <v:String x:Key="m_Back">Назад</v:String>
+    <v:String x:Key="m_ReadBook">Прочитать книгу</v:String>
+    <v:String x:Key="m_BuyBook">Купить книгу</v:String>
+</ResourceDictionary>

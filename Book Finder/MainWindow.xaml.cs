@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
+using System.Globalization;
+using System;
 
 namespace Book_Finder
 {
@@ -12,6 +14,14 @@ namespace Book_Finder
         public MainWindow()
         {
             InitializeComponent();
+            if (Properties.Settings.Default.DefaultLanguage.ToString().Contains("ru-RU"))
+            {
+                Btn_RU.IsChecked = true;
+            }
+            else if (Properties.Settings.Default.DefaultLanguage.ToString().Contains("en-US"))
+            {
+                Btn_EN.IsChecked = true;
+            }
         }
 
         private void Btn_About_Click(object sender, RoutedEventArgs e) => Process.Start("https://github.com/Djostit/Book-Finder/blob/master/README.md");
@@ -35,5 +45,25 @@ namespace Book_Finder
         }
 
         private void Btn_GoNow_Click(object sender, RoutedEventArgs e) => frame.NavigationService.Navigate(new SearchPage());
+
+        private void MaximizeCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = true;
+
+
+        private void MaximizeCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (WindowState != WindowState.Maximized)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                WindowState = WindowState.Normal;
+            }
+        }
+
+        private void Btn_RU_Click(object sender, RoutedEventArgs e) => App.Language = CultureInfo.GetCultureInfo("ru-RU");
+
+        private void Btn_EN_Click(object sender, RoutedEventArgs e) => App.Language = CultureInfo.GetCultureInfo("en-US");
+
     }
 }

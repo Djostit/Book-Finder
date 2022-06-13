@@ -1,54 +1,31 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using Newtonsoft.Json;
-using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Collections.Generic;
-using System.Windows.Documents;
 using Newtonsoft.Json.Linq;
-using System.Text;
-using System.Windows.Media.Imaging;
-using System.Linq;
+using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Book_Finder
 {
     /// <summary>
     /// Логика взаимодействия для SearchPage.xaml
     /// </summary>
-    public class BookListResponse
+    public class Book
     {
-        public string Kind { get; set; }
-        public int TotalItems { get; set; }
-        public List<BookListResponse> Books { get; set; }
-        public List<string> authors { get; set; }
-    }
-    public class BookObject
-    {
-        public BookObject()
-        {
-            authors = new List<string>(); // init authors in constructor
-        }
-        public string id { get; set; }
-        public string title { get; set; }
-        public List<string> authors { get; set; }
-        public string publisher { get; set; }
-        public string publishedDate { get; set; }
-        public string description { get; set; }
-        public int pageCount { get; set; }
-        public string blurb { get; set; }
-
-        // Availability
-        public bool pdfAvailable { get; set; }
-        public string pdfLink { get; set; }
-        public bool epubAvailable { get; set; }
-        public string epubLink { get; set; }
-        public string forSale { get; set; }
-        public string saleLink { get; set; }
+        public string Title { get; set; }
+        public string Authors { get; set; }
+        public string PublishedDate { get; set; }
+        public string Publisher { get; set; }
+        public string Image { get; set; }
+        public string PreviewLink { get; set; }
+        public string Description { get; set; }
+        public string PageCount { get; set; }
+        public string BuyLink { get; set; }
+        public string WebReaderLink { get; set; }
     }
 
     public partial class SearchPage : Page
@@ -57,60 +34,134 @@ namespace Book_Finder
         {
             InitializeComponent();
             bookClient.BaseAddress = new Uri("https://www.googleapis.com/books/v1/volumes?q=");
+            BookCount.Visibility = Visibility.Hidden;
         }
-        HttpClient bookClient = new HttpClient();
-        private void ProcessRepositories(string text)
+        readonly HttpClient bookClient = new HttpClient();
+        List<Book> list;
+        readonly Dispatcher mainthread = Dispatcher.CurrentDispatcher;
+        private async Task ProcessRepositories(string text)
         {
-            HttpResponseMessage response = bookClient.GetAsync($"https://www.googleapis.com/books/v1/volumes?q={text}").Result;
-            Console.WriteLine(response.StatusCode);
-            JObject bookJson = JObject.Parse(response.Content.ReadAsStringAsync().Result);
-            Count.Text = $"Count book: {bookJson["totalItems"]}";
-
+            HttpResponseMessage response = await bookClient.GetAsync($"https://www.googleapis.com/books/v1/volumes?q={text}&maxResults=40");
+            // Console.WriteLine(response.StatusCode);
+            JObject bookJson = JObject.Parse(await response.Content.ReadAsStringAsync());
+            Count.Text = bookJson["totalItems"].ToString();
+            BookCount.Visibility = Visibility.Visible;
             JArray books = (JArray)bookJson["items"];
+            list = new List<Book>();
+
             foreach (var book in books)
             {
-                JObject volumeInfoObject = (JObject)book["volumeInfo"];
-                //Console.WriteLine(volumeInfoObject["title"]);
-                //Console.WriteLine(volumeInfoObject["publishedDate"]);
-                //Console.WriteLine(volumeInfoObject["description"]);
-                //Console.WriteLine(volumeInfoObject["publisher"]);
-                //Console.WriteLine(ParseString(volumeInfoObject, "authors"));
-                MessageBox.Show($"{volumeInfoObject["title"]}" +
-                    $"\nАвторы: {ParseString(volumeInfoObject, "authors")}" +
-                    $"\nДата: {volumeInfoObject["publishedDate"]}" +
-                    $"\nПубликатор: {volumeInfoObject["publisher"]}" +
-                    $"\nОписание: {volumeInfoObject["description"]}");
-            }
+                var r  = await Task.Run(() =>
+                {
+                    JObject volumeInfoObject = (JObject)book["volumeInfo"];
+                    JObject imageLinksObject = (JObject)volumeInfoObject["imageLinks"];
+                    JObject buyLinkObject = (JObject)book["saleInfo"];
+                    JObject accessInfoObject = (JObject)book["accessInfo"];
+                    return (volumeInfoObject, imageLinksObject, buyLinkObject, accessInfoObject);
+                });
+
+                await mainthread.Invoke(async () => list.Add(new Book { Title = r.volumeInfoObject["title"].ToString(), Authors = await ParseString(r.volumeInfoObject, "authors"), PublishedDate = await ParseText(r.volumeInfoObject, "publishedDate"),
+                    Publisher = await ParseText(r.volumeInfoObject, "publisher"), Image = await ParseImage(r.imageLinksObject, "thumbnail", 1), PreviewLink = r.volumeInfoObject["previewLink"].ToString(),
+                    Description = await ParseText(r.volumeInfoObject, "description"), PageCount = await ParseText(r.volumeInfoObject, "pageCount"), BuyLink = await ParseImage(r.buyLinkObject, "buyLink", 2), WebReaderLink = await ParseImage(r.accessInfoObject, "webReaderLink", 2) }));
+            }         
+            listView.ItemsSource = list;
 
         }
-        private string ParseString(JObject text, string index)
+        private async Task<string> ParseImage(JObject text, string index, int choice)
         {
-            if (text[index] == null)
+            return await Task.Run(() =>
             {
-                return "";
-            }
-            else
-            {
-                string temp = string.Empty;
-                int temp_count = 0;
-                foreach (var item in text[index])
+                if (text == null && choice == 1)
                 {
-                    if (temp_count == 0)
-                    {
-                        temp += item;
-                        temp_count++;
-                    }
-                    else
-                    {
-                        temp += $", {item}";
-                    }
+                    return "pack://application:,,,/Book Finder;component/Image/Book.png";
                 }
-                return temp;
-            }
-        }   
-        private void Btn_Search_Click(object sender, RoutedEventArgs e)
+                else if (text == null && choice == 2)
+                {
+                    return "None";
+                }
+                else if (text[index] == null)
+                {
+                    return "Not found";
+                }
+                else
+                {
+                    return text[index].ToString();
+                }
+            });
+        }
+        private async Task<string> ParseText(JObject text, string index)
         {
-           ProcessRepositories(Search.Text);
+            return await Task.Run(() =>
+            {
+                if (text[index] == null)
+                {
+                    return "Not Found";
+                }
+                else
+                {
+                    return text[index].ToString();
+                }
+            });
+        }
+        private async Task<string> ParseString(JObject text, string index)
+        {
+            return await Task.Run(() => { 
+                if (text[index] == null)
+                {
+                    return "Not Found";
+                }
+                else
+                {
+                    string temp = string.Empty;
+                    int temp_count = 0;
+                    foreach (var item in text[index])
+                    {
+                        if (temp_count == 0)
+                        {
+                            temp += item;
+                            temp_count++;
+                        }
+                        else
+                        {
+                            temp += $", {item}";
+                        }
+                    }
+                    return temp;
+                }
+            });
+        }   
+        protected async void Btn_Search_Click(object sender, RoutedEventArgs e)
+        {
+            if (Search.Text.Length != 0)
+            {
+                Keyboard.ClearFocus();
+                await ProcessRepositories(Search.Text);
+            }
+        }
+
+        private void TextTitle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                var item = (sender as FrameworkElement).DataContext;
+                int index = listView.Items.IndexOf(item);
+                Process.Start(list[index].PreviewLink);
+            }
+        }
+
+        private void Btn_More_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as FrameworkElement).DataContext;
+            int index = listView.Items.IndexOf(item);
+            NavigationService.Navigate(new MorePage(list, index));
+        }
+
+        private void Search_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Search.Text.Length != 0 && e.Key == Key.Enter)
+            {
+                Btn_Search_Click(sender, e);
+            }
         }
     }
 }
