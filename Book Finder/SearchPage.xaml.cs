@@ -26,6 +26,7 @@ namespace Book_Finder
         public string PageCount { get; set; }
         public string BuyLink { get; set; }
         public string WebReaderLink { get; set; }
+        public string Id { get; set; }
     }
 
     public partial class SearchPage : Page
@@ -45,9 +46,18 @@ namespace Book_Finder
             // Console.WriteLine(response.StatusCode);
             JObject bookJson = JObject.Parse(await response.Content.ReadAsStringAsync());
             Count.Text = bookJson["totalItems"].ToString();
+            if(Count.Text == 0.ToString())
+            {
+                listView.ItemsSource = "";
+                return;
+            }
             BookCount.Visibility = Visibility.Visible;
             JArray books = (JArray)bookJson["items"];
             list = new List<Book>();
+            if (books is null)
+            {
+                return;
+            }
 
             foreach (var book in books)
             {
@@ -62,8 +72,10 @@ namespace Book_Finder
 
                 await mainthread.Invoke(async () => list.Add(new Book { Title = r.volumeInfoObject["title"].ToString(), Authors = await ParseString(r.volumeInfoObject, "authors"), PublishedDate = await ParseImage(r.volumeInfoObject, "publishedDate", 2),
                     Publisher = await ParseImage(r.volumeInfoObject, "publisher", 2), Image = await ParseImage(r.imageLinksObject, "thumbnail", 1), PreviewLink = r.volumeInfoObject["previewLink"].ToString(),
-                    Description = await ParseImage(r.volumeInfoObject, "description", 2), PageCount = await ParseImage(r.volumeInfoObject, "pageCount", 2), BuyLink = await ParseImage(r.buyLinkObject, "buyLink", 2), WebReaderLink = await ParseImage(r.accessInfoObject, "webReaderLink", 2) }));
-            }         
+                    Description = await ParseImage(r.volumeInfoObject, "description", 2), PageCount = await ParseImage(r.volumeInfoObject, "pageCount", 2), BuyLink = await ParseImage(r.buyLinkObject, "buyLink", 2), WebReaderLink = await ParseImage(r.accessInfoObject, "webReaderLink", 2),
+                    Id = book["id"].ToString()}
+                ));
+            }
             listView.ItemsSource = list;
 
         }
@@ -77,19 +89,11 @@ namespace Book_Finder
                 }
                 else if (text == null && choice == 2)
                 {
-                    return "None";
+                    return "–";
                 }
                 else if (text[index] == null)
                 {
-                    //if (Properties.Settings.Default.DefaultLanguage.ToString().Contains("ru-RU"))
-                    //{
-                    //    return "Отсутствует";
-                    //}
-                    //else
-                    //{
-                    //    return "Not found";
-                    //}
-                    return Application.Current.Resources["Not_found"].ToString();
+                    return "–";
                 }
                 else
                 {
@@ -102,7 +106,7 @@ namespace Book_Finder
             return await Task.Run(() => { 
                 if (text[index] == null)
                 {
-                    return "Not Found";
+                    return "–";
                 }
                 else
                 {

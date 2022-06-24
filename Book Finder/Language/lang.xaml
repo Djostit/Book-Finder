@@ -3,8 +3,8 @@
                     xmlns:v="clr-namespace:System;assembly=mscorlib">
     <v:String x:Key="m_About">About</v:String>
     <v:String x:Key="m_Contact">Contact</v:String>
-    <v:String x:Key="m_Search">Search now ➜</v:String>
-    <v:String x:Key="m_Search_dep">Search for books anywhere, you don't need to know the name of the book, if you know the name of the author or the publisher, just type and search.</v:String>
+    <v:String x:Key="m_Search">Search ➜</v:String>
+    <v:String x:Key="m_Search_dep">Search for books anywhere. You don't need to know the name of the book. If you know the name of the author or the publisher, just type and search.</v:String>
     <v:String x:Key="m_Search_title">Find the books you are looking for anywhere</v:String>
     <v:String x:Key="m_Search_st">Search</v:String>
     <v:String x:Key="m_More">More ></v:String>
@@ -17,5 +17,11 @@
     <v:String x:Key="m_Back">Back</v:String>
     <v:String x:Key="m_ReadBook">Read the book</v:String>
     <v:String x:Key="m_BuyBook">Buy the book</v:String>
-    <v:String x:Key="Not_found">Not found</v:String>
+    <v:String x:Key="m_feedback">Feedback</v:String>
+    <v:String x:Key="m_add_review">Add a review</v:String>
+    <v:String x:Key="m_name">Name</v:String>
+    <v:String x:Key="m_overall_assessment">Overall assessment:</v:String>
+    <v:String x:Key="m_review_text">Review text</v:String>
+    <v:String x:Key="m_publish">Publish</v:String>
+    <v:String x:Key="m_cancel">Cancel</v:String>
 </ResourceDictionary>

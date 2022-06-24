@@ -11,7 +11,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Background="{DynamicResource MaterialDesignPaper}"
+        Background="#f3f3f3"
         Height="400" 
         Width="800"
         WindowStyle="None"
@@ -36,6 +36,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
+            <RowDefinition Height="50*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -160,7 +161,8 @@
                  MaxWidth="600"
                  Grid.Column="1"
                  VerticalAlignment="Stretch"
-                 HorizontalAlignment="Stretch">
+                 HorizontalAlignment="Stretch"
+                 Margin="5 0 0 0">
         <StackPanel Grid.Row="1"
                     Grid.Column="1">
                 <TextBlock Foreground="Black"
@@ -171,7 +173,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
                        FontFamily="Font/#Comfortaa"
-                       FontSize="36"
+                       FontSize="30"
                        FontWeight="Bold"
                        TextWrapping="Wrap"/>
                 <TextBlock Grid.Row="1"
@@ -185,7 +187,7 @@
                        FontFamily="Font/#Comfortaa"
                        FontSize="16"
                        FontWeight="Light"
-                       TextWrapping="Wrap" Margin="5,25,0,0">
+                       TextWrapping="Wrap" Margin="0,15,0,0">
                 </TextBlock>
             <Button x:Name="Btn_GoNow"
                     Foreground="White"
@@ -197,7 +199,7 @@
                     Background="DodgerBlue"
                     Cursor="Hand"
                     Focusable="False" 
-                    Margin="10,20,0,5"
+                    Margin="0,20,0,5"
                     Click="Btn_GoNow_Click"/>
         </StackPanel>
         </Viewbox>
@@ -207,6 +209,7 @@
                Stretch="Uniform"/>
         <Frame x:Name="frame"
                Grid.Row="1"
+               Grid.RowSpan="2"
                Grid.Column="1"
                Grid.ColumnSpan="3"
                NavigationUIVisibility="Hidden"

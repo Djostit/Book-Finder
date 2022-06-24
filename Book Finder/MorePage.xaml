@@ -10,7 +10,7 @@
       TextElement.FontSize="13"
       TextOptions.TextFormattingMode="Ideal"
       TextOptions.TextRenderingMode="Auto"
-      Background="{DynamicResource MaterialDesignPaper}"
+      Background="#f3f3f3"
       d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
@@ -28,7 +28,7 @@
                  VerticalAlignment="Top"
                  Margin="5,0,0,0">
         <materialDesign:Card
-            materialDesign:ShadowAssist.ShadowDepth="Depth4"
+            materialDesign:ShadowAssist.ShadowDepth="Depth2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Padding="5">
@@ -53,7 +53,7 @@
                 <WrapPanel Margin="0,5,0,0"
                            HorizontalAlignment="Left"
                            MinWidth="116"
-                           MaxWidth="290">
+                           MaxWidth="250">
                     <TextBlock Text="{DynamicResource m_Authors}"
                                Foreground="Black"
                                FontFamily="Font/#Comfortaa"
@@ -115,145 +115,210 @@
                 </StackPanel>
         </materialDesign:Card>
         </Viewbox>
-        <Viewbox Stretch="Uniform"
-                 Grid.Column="1"
-                 Grid.Row="1"
-                 VerticalAlignment="Top"
-                 Margin="10,0,5,0">
-            <materialDesign:Card
-            materialDesign:ShadowAssist.ShadowDepth="Depth4" 
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Padding="5">
-                <StackPanel Margin="5,0,0,0">
-                    <TextBlock Text="{DynamicResource m_Book_Description}"
-                     TextAlignment="Center"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Center"
-                     Foreground="Black"
-                     FontFamily="Font/#Comfortaa" 
-                     FontWeight="Bold"
-                     TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding Path=Description}"
-                           MaxWidth="530"
-                           Foreground="Black"
-                           FontFamily="Font/#Comfortaa" 
-                           FontWeight="Regular"
-                           TextWrapping="Wrap"
-                           Margin="0,10,0,0"/>
-                    <WrapPanel HorizontalAlignment="Right"
-                           Margin="0,10,0,0">
-                        <Button Content="{DynamicResource m_Back}"
-                                Command="{x:Static NavigationCommands.BrowseBack}"/>
-                        <materialDesign:DialogHost
-                            DialogTheme="Inherit">
-                            <materialDesign:DialogHost.DialogContent>
-                                <Grid Margin="16">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Text="Добавить отзыв" 
-                                               Grid.Row="0"
-                                               Foreground="Black"
-                                               FontFamily="Font/#Comfortaa"
-                                               FontWeight="Regular"/>
-                                    <WrapPanel Margin="0,5,0,0"
-                                               Grid.Row="1"
-                                               HorizontalAlignment="Stretch">
-                                        <materialDesign:PackIcon Kind="Account"
-                                                                 VerticalAlignment="Center"/>
-                                        <TextBox x:Name="NameTextBox"
-                                             materialDesign:HintAssist.Hint="Name"
-                                             FontFamily="Font/#Comfortaa"
-                                             FontWeight="Regular"
-                                             MaxLength="45"
-                                             materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
-                                             MinWidth="200"
-                                             MaxWidth="350"
-                                             Padding="1"
-                                             HorizontalAlignment="Stretch">
-                                            <TextBox.Text>
-                                                <Binding Path="Validation.Name"
-                                                         Mode="TwoWay"
-                                                         UpdateSourceTrigger="PropertyChanged">
-                                                    <Binding.ValidationRules>
-                                                        <DataErrorValidationRule/>
-                                                    </Binding.ValidationRules>
-                                                </Binding>
-                                            </TextBox.Text>
-                                        </TextBox>
-                                    </WrapPanel>
-                                    <WrapPanel Margin="0,5,0,0" Grid.Row="2">
-                                        <TextBlock Text="Общая оценка: "
+        <Grid Grid.Column="1"
+              Grid.Row="1"
+              VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Viewbox Stretch="Uniform"
+                     Grid.Row="0"
+                     VerticalAlignment="Top"
+                     Margin="10,0,5,0">
+                <materialDesign:Card
+                    materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Padding="5">
+                    <StackPanel Margin="5,0,0,0">
+                        <TextBlock Text="{DynamicResource m_Book_Description}"
+                         TextAlignment="Center"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Foreground="Black"
+                         FontFamily="Font/#Comfortaa" 
+                         FontWeight="Bold"
+                         TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Path=Description}"
+                               MaxWidth="630"
+                               Foreground="Black"
+                               FontFamily="Font/#Comfortaa" 
+                               FontWeight="Regular"
+                               TextWrapping="Wrap"
+                               Margin="0,10,0,0"/>
+                        <WrapPanel HorizontalAlignment="Right"
+                               Margin="0,10,0,0">
+                            <Button Content="{DynamicResource m_Back}"
+                                    Command="{x:Static NavigationCommands.BrowseBack}"/>
+                            <materialDesign:DialogHost
+                                DialogTheme="Inherit">
+                                <materialDesign:DialogHost.DialogContent>
+                                    <Grid Margin="16">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Text="{DynamicResource m_add_review}" 
+                                                   Grid.Row="0"
                                                    Foreground="Black"
-                                                   Margin="0,5,0,0"
                                                    FontFamily="Font/#Comfortaa"
                                                    FontWeight="Regular"/>
-                                        <materialDesign:RatingBar Value="3"/>
-                                    </WrapPanel>
-                                    <TextBox Grid.Row="3"
-                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                        VerticalAlignment="Center"
-                                        TextWrapping="Wrap"
-                                        FontFamily="Font/#Comfortaa"
-                                        FontWeight="Regular"
-                                        MaxLength="300"
-                                        MinWidth="200"
-                                        MaxWidth="350"
-                                        materialDesign:TextFieldAssist.CharacterCounterVisibility="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxTextCountComboBox, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                        materialDesign:HintAssist.Hint="Текст отзыва"
-                                        materialDesign:TextFieldAssist.HasClearButton="True"
-                                        Margin="0,5,0,0"/>
-                                    <StackPanel Orientation="Horizontal"
-                                                HorizontalAlignment="Center"
-                                                Grid.Row="4"
-                                                Margin="0,0,0,0">
-                                        <Button
-                                            Style="{StaticResource MaterialDesignFlatButton}"
-                                            IsDefault="True"
-                                            Margin="0 8 8 0"
-                                            Content="ACCEPT"
-                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
-                                            <Button.CommandParameter>
-                                                <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
-                                                    True
-                                                </system:Boolean>
-                                            </Button.CommandParameter>
-                                        </Button>
-                                        <Button
-                                            Style="{StaticResource MaterialDesignFlatButton}"
-                                            IsCancel="True"
-                                            Margin="0 8 8 0"
-                                            Content="CANCEL"
-                                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
-                                            <Button.CommandParameter>
-                                                <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
-                                                    False
-                                                </system:Boolean>
-                                            </Button.CommandParameter>
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </materialDesign:DialogHost.DialogContent>
-                            <Button Content="Feedback"
-                                Margin="5,0,0,0"
-                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"/>
-                        </materialDesign:DialogHost>
-                        <Button x:Name="Btn_Read"
-                                Content="{DynamicResource m_ReadBook}"
-                                Margin="5,0,0,0"
-                                Click="Btn_Read_Click"/>
-                        <Button x:Name="Btn_BuyBook"
-                                Content="{DynamicResource m_BuyBook}"
-                                Margin="5,0,0,0"
-                                Click="Btn_BuyBook_Click"/>
-                    </WrapPanel>
-                </StackPanel>
-            </materialDesign:Card>
-        </Viewbox>
+                                        <WrapPanel Margin="0,5,0,0"
+                                                   Grid.Row="1"
+                                                   HorizontalAlignment="Stretch">
+                                            <materialDesign:PackIcon Kind="Account"
+                                                                     VerticalAlignment="Center"/>
+                                            <TextBox x:Name="NameTextBox"
+                                                 materialDesign:HintAssist.Hint="{DynamicResource m_name}"
+                                                 FontFamily="Font/#Comfortaa"
+                                                 FontWeight="Regular"
+                                                 MaxLength="45"
+                                                 materialDesign:TextFieldAssist.CharacterCounterVisibility="Collapsed"
+                                                 MinWidth="200"
+                                                 MaxWidth="350"
+                                                 Padding="1"
+                                                 HorizontalAlignment="Stretch"
+                                                 PreviewTextInput="TextDrawer_PreviewTextInput"/>
+                                        </WrapPanel>
+                                        <WrapPanel Margin="0,5,0,0" Grid.Row="2">
+                                            <TextBlock Text="{DynamicResource m_overall_assessment}"
+                                                       Foreground="Black"
+                                                       Margin="0,5,0,0"
+                                                       FontFamily="Font/#Comfortaa"
+                                                       FontWeight="Regular"/>
+                                            <materialDesign:RatingBar x:Name="RatingBar"
+                                                Value="3"/>
+                                        </WrapPanel>
+                                        <TextBox x:Name="TextBoxDescription" 
+                                            Grid.Row="3"
+                                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                            VerticalAlignment="Center"
+                                            TextWrapping="Wrap"
+                                            FontFamily="Font/#Comfortaa"
+                                            FontWeight="Regular"
+                                            MaxLength="300"
+                                            MinWidth="200"
+                                            MaxWidth="350"
+                                            materialDesign:HintAssist.Hint="{DynamicResource m_review_text}"
+                                            materialDesign:TextFieldAssist.HasClearButton="True"
+                                            Margin="0,5,0,0"/>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center"
+                                                    Grid.Row="4"
+                                                    Margin="0,5,0,0">
+                                            <Button x:Name="Btn_Accept"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                IsDefault="True"
+                                                Margin="0 8 0 0"
+                                                Click="Btn_Accept_Click"
+                                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                                                <WrapPanel>
+                                                    <materialDesign:PackIcon Kind="ProgressCheck"
+                                                                             HorizontalAlignment="Center"
+                                                                             VerticalAlignment="Center"
+                                                                             Margin="0 0 3 0"/>
+                                                    <TextBlock Text="{DynamicResource m_publish}"
+                                                               FontFamily="Font/#Comfortaa"
+                                                               FontWeight="Regular"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+                                                </WrapPanel>
+                                            </Button>
+                                            <Button x:Name="Btn_Cancel"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                IsCancel="True"
+                                                Margin="0 8 0 0"
+                                                Click="Btn_Cancel_Click"
+                                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                                                <WrapPanel>
+                                                    <materialDesign:PackIcon Kind="CloseCircleOutline"
+                                                                             HorizontalAlignment="Center"
+                                                                             VerticalAlignment="Center"
+                                                                             Margin="0 0 3 0"/>
+                                                    <TextBlock Text="{DynamicResource m_cancel}"
+                                                               FontFamily="Font/#Comfortaa"
+                                                               FontWeight="Regular"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"/>
+                                                </WrapPanel>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </materialDesign:DialogHost.DialogContent>
+                                <Button Content="{DynamicResource m_feedback}"
+                                    Margin="5,0,0,0"
+                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Cursor="Hand"/>
+                            </materialDesign:DialogHost>
+                            <Button x:Name="Btn_Read"
+                                    Content="{DynamicResource m_ReadBook}"
+                                    Margin="5,0,0,0"
+                                    Click="Btn_Read_Click"/>
+                            <Button x:Name="Btn_BuyBook"
+                                    Content="{DynamicResource m_BuyBook}"
+                                    Margin="5,0,0,0"
+                                    Click="Btn_BuyBook_Click"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+            </Viewbox>
+            <ListView x:Name="listView"
+                      Grid.Row="3"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      VerticalContentAlignment="Stretch"
+                      HorizontalContentAlignment="Stretch"
+                      Margin="10 5 5 0"
+                      ScrollViewer.CanContentScroll="True"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding Path=Name}" 
+                                           Foreground="Black"
+                                           FontFamily="Font/#Comfortaa"
+                                           FontWeight="Bold"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"/>
+                                <materialDesign:RatingBar Value="{Binding Path=RatingBar}"
+                                                          IsReadOnly="True"/>
+                            </WrapPanel>
+                            <Separator Foreground="Black"
+                                       Style="{StaticResource MaterialDesignSeparator}"/>
+                            <TextBlock Text="{Binding Path=Description}" 
+                                           Foreground="Black"
+                                           TextWrapping="Wrap"
+                                           FontFamily="Font/#Comfortaa"
+                                           FontWeight="Regular"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <materialDesign:DrawerHost x:Name="DrawerHost"
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="Stretch"
+                                   Grid.ColumnSpan="3"
+                                   Grid.RowSpan="3"
+                                   OpenMode="Standard"
+                                   BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                   BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}">
+            <materialDesign:DrawerHost.BottomDrawerContent>
+                <TextBlock x:Name="TextDrawer"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="Font/#Comfortaa"
+                           FontWeight="Regular"
+                           FontSize="20"
+                           Margin="5"/>
+            </materialDesign:DrawerHost.BottomDrawerContent>
+        </materialDesign:DrawerHost>
     </Grid>
 </Page>

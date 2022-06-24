@@ -2,9 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:v="clr-namespace:System;assembly=mscorlib">
     <v:String x:Key="m_About">О программе</v:String>
-    <v:String x:Key="m_Contact">Связаться со мной</v:String>
-    <v:String x:Key="m_Search">Поиск сейчас ➜</v:String>
-    <v:String x:Key="m_Search_dep">Ищите книги где угодно, вам не нужно знать название книги, если вы знаете имя автора или издателя, просто наберите и ищите.</v:String>
+    <v:String x:Key="m_Contact">Связь</v:String>
+    <v:String x:Key="m_Search">Поиск ➜</v:String>
+    <v:String x:Key="m_Search_dep">Ищите книги где угодно. Вам не нужно знать название книги. Eсли вы знаете имя автора или издателя, просто наберите и ищите.</v:String>
     <v:String x:Key="m_Search_title">Найдите книги, которые вы ищете, где угодно</v:String>
     <v:String x:Key="m_Search_st">Поиск</v:String>
     <v:String x:Key="m_More">Подробнее ></v:String>
@@ -17,5 +17,11 @@
     <v:String x:Key="m_Back">Назад</v:String>
     <v:String x:Key="m_ReadBook">Прочитать книгу</v:String>
     <v:String x:Key="m_BuyBook">Купить книгу</v:String>
-    <v:String x:Key="Not_found">Не найдено</v:String>
+    <v:String x:Key="m_feedback">Отзыв</v:String>
+    <v:String x:Key="m_add_review">Добавить отзыв</v:String>
+    <v:String x:Key="m_name">Имя</v:String>
+    <v:String x:Key="m_overall_assessment">Общая оценка:</v:String>
+    <v:String x:Key="m_review_text">Текст отзыва</v:String>
+    <v:String x:Key="m_publish">Опубликовать</v:String>
+    <v:String x:Key="m_cancel">Отменить</v:String>
 </ResourceDictionary>
